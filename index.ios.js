@@ -12,12 +12,16 @@ var {
   View,
 } = React;
 
+var MOCKED_MOVIES_DATA = [
+  {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}}
+];
+
 var reactNativeSandbox = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          This is my first React Native!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.ios.js{'\n'}
