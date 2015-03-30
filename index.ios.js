@@ -14,20 +14,14 @@ var {
   View,
 } = React;
 
-var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
+var API_URL = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json';
+
+var PAGE_SIZE = 25;
+var PARAMS = '?apikey=' + API_KEY + '&page_limit=' + PAGE_SIZE;
+var REQUEST_URL = API_URL + PARAMS;
 
 var reactNativeSandbox = React.createClass({
-  fetchData: function() {
-    fetch(REQUEST_URL)
-      .then((response) => response.json())
-      .then((responseData) =>{
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-          loaded: true
-        });
-      })
-      .done()
-  },
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
@@ -38,6 +32,17 @@ var reactNativeSandbox = React.createClass({
   },
   componentDidMount: function() {
     this.fetchData();
+  },
+  fetchData: function() {
+    fetch(REQUEST_URL)
+      .then((response) => response.json())
+      .then((responseData) =>{
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+          loaded: true
+        });
+      })
+      .done()
   },
   render: function() {
     if (!this.state.loaded) {
@@ -70,20 +75,12 @@ var reactNativeSandbox = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  listView: {
-    paddingTop: 20,
-    backgroundColor: '#F5FCFF'
-  },
   container: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  thumbnail: {
-    width: 53,
-    height: 81
   },
   rightContainer: {
     flex: 1
@@ -95,6 +92,14 @@ var styles = StyleSheet.create({
   },
   year: {
     textAlign: 'center'
+  },
+  thumbnail: {
+    width: 53,
+    height: 81
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#F5FCFF'
   }
 });
 
