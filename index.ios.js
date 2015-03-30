@@ -7,6 +7,7 @@
 var React = require('react-native');
 var {
   AppRegistry,
+  Image,
   StyleSheet,
   Text,
   View,
@@ -18,15 +19,12 @@ var MOCKED_MOVIES_DATA = [
 
 var reactNativeSandbox = React.createClass({
   render: function() {
+    var movie = MOCKED_MOVIES_DATA[0];
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          This is my first React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js{'\n'}
-          Press Cmd+R to reload
-        </Text>
+        <Text>{movie.title}</Text>
+        <Text>{movie.year}</Text>
+        <Image source={{uri: movie.posters.thumbnail}} style={styles.thumbnail} />
       </View>
     );
   }
@@ -39,15 +37,10 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-  },
+  thumbnail: {
+    width: 53,
+    height: 81
+  }
 });
 
 AppRegistry.registerComponent('reactNativeSandbox', () => reactNativeSandbox);
