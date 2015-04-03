@@ -16,8 +16,8 @@ class Anyca extends React.Component {
   render() {
     return (
       <NavigatorIOS style={styles.container} initialRoute={{
+        title: 'Anyca',
         component: CarSearchList,
-        title: 'Anyca'
       }} />
     );
   }
@@ -30,3 +30,5 @@ var styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('reactNativeSandbox', () => Anyca);
+
+module.exports = Anyca;

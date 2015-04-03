@@ -7,8 +7,10 @@ var {
   StyleSheet,
   Text,
   View,
+  TouchableHighlight
 } = React;
 var Dimensions = require('Dimensions');
+var CarDetail = require('./CarDetail');
 
 var API_URL = 'https://dev-api.anyca.net/api/cars/list';
 var REQUEST_URL = API_URL;
@@ -29,7 +31,7 @@ var CarSearchList = React.createClass({
   fetchData: function() {
     fetch(REQUEST_URL)
       .then((response) => response.json())
-      .then((responseData) =>{
+      .then((responseData) => {
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.list),
           loaded: true
@@ -61,6 +63,13 @@ var CarSearchList = React.createClass({
       </View>
     );
   },
+  rowPressed: function(car) {
+    this.props.navigator.push({
+      title: car.car_name,
+      component: CarDetail,
+      passProps: {car}
+    });
+  },
   renderCar: function(car) {
     var addFigure = function(str) {
       var num = new String(str).replace(/,/g, "");
@@ -69,20 +78,22 @@ var CarSearchList = React.createClass({
     };
     var price = '¥' + addFigure(car.price);
     return (
-      <View style={styles.row}>
-        <Image source={{uri: IMAGE_BASE_URL + car.image_url}} style={[styles.thumbnail, {width: this.state.width}]}>
-          <View style={[styles.bar, {flexDirection: 'row'}]}>
-            <View style={styles.leftContainer}>
-              <Text style={styles.name}>{car.car_name}</Text>
-              <Text style={styles.maker}>{car.maker}</Text>
-              <Text style={styles.station}>{car.station_name}</Text>
+      <TouchableHighlight onPress={() => this.rowPressed(car)}>
+        <View style={styles.row}>
+          <Image source={{uri: IMAGE_BASE_URL + car.image_url}} style={[styles.thumbnail, {width: this.state.width}]}>
+            <View style={[styles.bar, {flexDirection: 'row'}]}>
+              <View style={styles.leftContainer}>
+                <Text style={styles.name}>{car.car_name}</Text>
+                <Text style={styles.maker}>{car.maker}</Text>
+                <Text style={styles.station}>{car.station_name}</Text>
+              </View>
+              <View style={styles.rightContainer}>
+                <Text style={styles.price}>{price}</Text>
+              </View>
             </View>
-            <View style={styles.rightContainer}>
-              <Text style={styles.price}>{price}</Text>
-            </View>
-          </View>
-        </Image>
-      </View>
+          </Image>
+        </View>
+      </TouchableHighlight>
     );
   }
 });
