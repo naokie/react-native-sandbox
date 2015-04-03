@@ -8,6 +8,7 @@ var {
   Text,
   View,
 } = React;
+var Dimensions = require('Dimensions');
 
 var API_URL = 'https://dev-api.anyca.net/api/cars/list';
 var REQUEST_URL = API_URL;
@@ -37,6 +38,13 @@ var CarSearchList = React.createClass({
       .done()
   },
   render: function() {
+    var {
+      width,
+      height,
+      scale
+    } = Dimensions.get('window');
+    this.state.width = width;
+
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
@@ -62,7 +70,7 @@ var CarSearchList = React.createClass({
     var price = '¥' + addFigure(car.price);
     return (
       <View style={styles.row}>
-        <Image source={{uri: IMAGE_BASE_URL + car.image_url}} style={[styles.thumbnail, {backgroundColor: 'transparent'}]}>
+        <Image source={{uri: IMAGE_BASE_URL + car.image_url}} style={[styles.thumbnail, {width: this.state.width}]}>
           <View style={[styles.bar, {flexDirection: 'row'}]}>
             <View style={styles.leftContainer}>
               <Text style={styles.name}>{car.car_name}</Text>
@@ -88,7 +96,8 @@ var styles = StyleSheet.create({
   },
   thumbnail: {
     width: 320,
-    height: 129
+    height: 129,
+    backgroundColor: 'transparent'
   },
   bar: {
     position: 'absolute',
